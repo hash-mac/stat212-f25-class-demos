@@ -1,0 +1,109 @@
+---
+title: "`purrr::map`"
+format: html
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+```
+
+## Summary
+
+- `map` applies computations on elements of vectors or list
+- `map()` always returns a list
+- `modify()` family returns the same type of the input
+- `map_int()` returns int vector, `map_dbl` return double vector
+- `walk()`
+
+
+## Named Vector -> Named List
+
+```{r}
+(int_vec = c(a = 1, b = 2, c = 3, d = 4))
+```
+Calculate mean of all elements
+```{r}
+int_vec |> map(mean)
+```
+
+Double all elements
+```{r}
+int_vec |> map(\(x) x ** 2)
+```
+Decorate the end of all elements
+```{r}
+int_vec |> map(paste0, " <<<")
+```
+
+Decorate the front and end of all elements
+```{r}
+int_vec |> map(\(x) paste0(">>> ", x, " <<<"))
+```
+
+
+
+## Dataframes -> Named List
+
+```{r}
+(df = data.frame(a = c(1, 2, 3), b = c(4, 5, 6)))
+```
+
+Calculate mean of all elements
+```{r}
+df |> map(mean)
+```
+
+Double all elements
+```{r}
+df |> map(\(x) x ** 2)
+```
+Decorate the end of all elements
+```{r}
+df |> map(paste0, " <<<")
+```
+
+Decorate the front and end of all elements
+```{r}
+df |> map(\(x) paste0(">>> ", x, " <<<"))
+```
+
+
+
+## Dataframes -> Dataframe
+
+```{r}
+(df = data.frame(a = c(1, 2, 3), b = c(4, 5, 6)))
+```
+
+Calculate mean of all elements
+```{r}
+df |> map_df(mean)
+```
+
+Double all elements
+```{r}
+df |> map_df(\(x) x ** 2)
+```
+Decorate the end of all elements
+```{r}
+df |> map_df(paste0, " <<<")
+```
+
+Decorate the front and end of all elements
+```{r}
+df |> map_df(\(x) paste0(">>> ", x, " <<<"))
+```
+
+## Class Example
+
+Compute the summary statistics for all quantitative variables in `diamonds`
+
+```{r}
+diamonds
+```
+
+
+

@@ -1,0 +1,109 @@
+---
+title: "`dplyr::across`"
+format: html
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+```
+## Summary
+
+- `dplyr::across` applies computations on columns of a dataframe
+- `dplyr::across` is used with masking verbs such as `mutate` and `summarize`
+
+
+```{r}
+(df = data.frame(a = c(1, 2, 3), b = c(4, 5, 6)))
+```
+
+
+## Calculate mean of ...
+
+... column a
+```{r}
+df |> 
+  summarize(a = mean(a))
+```
+
+... column b
+```{r}
+df |> 
+  summarize(b = mean(b))
+```
+
+... columns a & b
+```{r}
+df |> 
+  summarize(
+    a = mean(a),
+    b = mean(b)
+  )
+```
+
+... columns a & b using `across`
+```{r}
+df |> 
+  summarize(across(c("a", "b"), mean))
+```
+
+... all columns using `across`
+```{r}
+df |> 
+  summarize(across(everything(), mean))
+```
+
+
+... all numeric columns using `across`
+```{r}
+df |> 
+  summarize(across(where(is.numeric), mean))
+```
+
+
+## Square values of 
+
+... column a
+```{r}
+df |> 
+  mutate(a = a ** 2)
+```
+
+... column b
+```{r}
+df |> 
+  mutate(b = b ** 2)
+```
+
+... columns a & b
+```{r}
+df |> 
+  mutate(
+    a = a ** 2,
+    b = b ** 2
+  )
+```
+
+... columns a & b using `across`
+```{r}
+df |> 
+  mutate(across(c("a", "b"), \(x) x ** 2))
+```
+
+... all columns using `across`
+```{r}
+df |> 
+  mutate(across(everything(), \(x) x ** 2))
+```
+
+
+... all numeric columns using `across`
+```{r}
+df |> 
+  mutate(across(where(is.numeric), \(x) x ** 2))
+```
+
+
+

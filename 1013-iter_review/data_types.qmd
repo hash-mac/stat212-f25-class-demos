@@ -1,0 +1,141 @@
+---
+title: "Data Types"
+format: html
+---
+
+```{r}
+print_label <- function(label) {
+  cat("\n")
+  cat(label)
+  cat("\n")
+  cat(paste0(rep("=", nchar(label)), collapse = ""))
+  cat("\n")
+}
+```
+
+
+## Vectors
+
+- Vectors are the basic data structure in R (atomic)
+- All the elements in a vector are of the same type (homogeneous).  
+- A vector can be though of as a single column with values of the same data type.
+```{r}
+# integer vector
+(int_vec = c(1, 2, 3, 4))
+```
+
+```{r}
+# character vector
+(cha_vec = c("a", "b", "c", "d"))
+```
+
+## Lists
+
+- Lists can hold different data types, including, vectors, other lists, and data frames (heterogeneous).
+
+```{r}
+(lst1 = list(1, 2, "x", "y"))
+```
+
+```{r}
+(lst2 = list(c(1, 2), c("x", "y")))
+```
+
+```{r}
+(list3 = list(c(1, 2, "x", "y")))
+```
+
+## Naming 
+
+The elements vectors and lists can be named.
+
+```{r}
+(named_int_vec = c(a = 1, b = 2, c = 3, d = 4))
+named_int_vec |> class()
+
+print_label('named_int_vec[1]')
+named_int_vec[1]
+named_int_vec[1] |> class()
+
+print_label('named_int_vec["a"]')
+named_int_vec["a"]
+named_int_vec["a"] |> class()
+
+print_label('named_int_vec$1')
+# named_int_vec$1
+
+print_label('named_int_vec$a')
+# named_int_vec$a
+
+print_label('named_int_vec[1]')
+named_int_vec[[1]]
+named_int_vec[[1]] |> class()
+
+print_label('named_int_vec["a"]')
+named_int_vec[["a"]]
+named_int_vec[["a"]] |> class()
+```
+
+```{r}
+(named_lst1 = list(a = 1, b = 2, c = "x", d = "y"))
+named_lst1 |> class()
+
+print_label('named_lst1[1]')
+named_lst1[1]
+named_lst1[1] |> class()
+
+print_label('named_lst1["a"]')
+named_lst1["a"]
+named_lst1["a"] |> class()
+
+print_label('named_lst1$1')
+# named_lst1$1
+
+print_label('named_lst1$a')
+named_lst1$a
+named_lst1$a |> class()
+
+print_label('named_lst1[[1]]')
+named_lst1[[1]]
+named_lst1[[1]] |> class()
+
+print_label('named_lst1[["a"]]')
+named_lst1[["a"]]
+named_lst1[["a"]] |> class()
+```
+
+## Dataframes
+
+Dataframes are special type of named lists where 
+
+- values in each column are of the same type (homogeneous)
+- columns are of the same length
+
+```{r}
+(df = data.frame(a = c(1, 2, 3), b = c("x", "y", "z")))
+df |> class()
+
+print_label('df[1]')
+df[1]
+df[1] |> class()
+
+print_label('df["a"]')
+df["a"]
+df["a"] |> class()
+
+print_label('df$1')
+# df$1
+
+print_label('df$a')
+df$a
+df$a |> class()
+
+print_label('df[[1]]')
+df[[1]]
+df[[1]] |> class()
+
+print_label('df[["a"]]')
+df[["a"]]
+df[["a"]] |> class()
+```
+
