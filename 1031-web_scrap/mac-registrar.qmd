@@ -1,0 +1,77 @@
+---
+title: "mac-registrar"
+format: html
+---
+
+## Goal
+
+Scrape the academic calendars on Macalester's Registrar Academic Calendars page and place them into a data frame
+
+## Step 1: Check for API
+
+There is no known API to get the academic calendars
+
+## Step 2: Ethics
+
+The instruction in https://www.macalester.edu/robots.txt (shown below) does not restriction scraping the Registrar Academic Calendars page.
+```html
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /160-*
+Disallow: /*/outreach/
+Disallow: /brian-rosenberg/
+Disallow: /ga-test/
+Disallow: /wordpress-sandbox/
+Disallow: /drc-sandbox/
+
+Sitemap: https://www.macalester.edu/sitemap.xml
+Sitemap: https://www.macalester.edu/sitemap.rss
+```
+
+## Step 3: Get Content
+
+```{r}
+library(rvest)
+```
+
+```{r}
+url <- "https://www.macalester.edu/registrar/academic-calendars/"
+```
+
+```{r}
+page <- read_html(url)
+page
+```
+
+```{r}
+interior_components <- page |> 
+  html_elements(".layout-interior__components")
+interior_components
+```
+
+Semesters
+```{r}
+semester_labels <- interior_components |> 
+  html_elements("h3, h4")
+semester_labels
+```
+
+```{r}
+semester_labels |> 
+  html_text()
+```
+
+
+Tables
+```{r}
+semester_scheddules <- interior_components |> 
+  html_elements("table")
+semester_scheddules
+```
+
+```{r}
+semester_scheddules |> 
+  html_table()
+```
+
