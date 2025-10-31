@@ -106,4 +106,20 @@ diamonds
 ```
 
 
+```{r}
+diamonds |> 
+  select(where(is.numeric)) |> 
+  map_df(mean)
+```
+
+```{r}
+diamonds |> 
+  select(where(is.numeric)) |> 
+  map_df(\(x) {
+    c(mean = mean(x), sd = sd(x))
+  })
+```
+
+
+
 
