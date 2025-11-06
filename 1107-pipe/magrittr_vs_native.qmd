@@ -1,0 +1,42 @@
+---
+title: "magrittr vs native pipes"
+---
+
+The `magrittr` pipe `%>%` functions almost the same as the native R pipe `|>`.  However, in some situations it does not.  Consider the example below.
+
+## Example
+
+Assume we have the following vector and we need to add `#` in front and end of each element.
+
+```{r}
+(lst = c("apple", "banana"))
+```
+
+
+### Using `magrittr` Pipe
+
+```{r}
+library(magrittr)
+lst %>% 
+  paste("#", ., "#")
+```
+
+### Using R Native Pipe
+
+```{r}
+#| eval: false
+
+# this won't work...
+lst |>  
+  paste("#", ., "#")
+```
+
+```{r}
+# ...we need anonymous function, . can be replaced with any other names
+lst |>  
+  (\(.) paste("#", ., "#"))()
+```
+
+## References
+
+- [Understanding the native R pipe |>](https://www.r-bloggers.com/2022/01/understanding-the-native-r-pipe-2/)
