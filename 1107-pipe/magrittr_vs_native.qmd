@@ -9,7 +9,7 @@ The `magrittr` pipe `%>%` functions almost the same as the native R pipe `|>`.  
 Assume we have the following vector and we need to add `#` in front and end of each element.
 
 ```{r}
-(lst = c("apple", "banana"))
+(v = c("apple", "banana"))
 ```
 
 
@@ -17,7 +17,7 @@ Assume we have the following vector and we need to add `#` in front and end of e
 
 ```{r}
 library(magrittr)
-lst %>% 
+v %>% 
   paste("#", ., "#")
 ```
 
@@ -27,13 +27,13 @@ lst %>%
 #| eval: false
 
 # this won't work...
-lst |>  
+v |>  
   paste("#", ., "#")
 ```
 
 ```{r}
 # ...we need anonymous function, . can be replaced with any other names
-lst |>  
+v |>  
   (\(.) paste("#", ., "#"))()
 ```
 
