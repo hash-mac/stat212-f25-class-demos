@@ -71,3 +71,4 @@ rsconnect/
 *.log
 *.aux
 *.toc
+/1110-TidyTuesday/tidytuesday-temp
