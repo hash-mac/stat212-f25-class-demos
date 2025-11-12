@@ -14,7 +14,7 @@ library(camcorder)
 prizes <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-10-28/prizes.csv')
 ```
 
-Somoe exploration
+Some exploration
 ```{r}
 #| eval: false
 
