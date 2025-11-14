@@ -72,3 +72,4 @@ rsconnect/
 *.aux
 *.toc
 /1110-TidyTuesday/tidytuesday-temp
+1114-api_review/census_api_key.txt
