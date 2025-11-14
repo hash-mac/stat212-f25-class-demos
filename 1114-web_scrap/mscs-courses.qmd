@@ -1,0 +1,7 @@
+---
+title: "mscs-courses"
+---
+
+We would like to scrap the MSCS courses on <https://www.macalester.edu/mscs/courses/>
+
+
