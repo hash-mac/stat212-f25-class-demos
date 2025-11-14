@@ -25,10 +25,16 @@ page |>
   purrr::map(function(x) {
     title = html_element(x, "h3") |> html_text()
     desc = html_element(x, ".coursedescription span") |> html_text()
-    offer = html_element(x, ".coursedescription p") |> html_text()
+    freq = html_element(x, ".coursedescription p") |> html_text()
     prereq = html_element(x, ".prerequisites") |> html_text()
-    return(c(title, desc, offer, prereq))
-  })
+    return(c(title = title, desc = desc, freq = freq, prereq = prereq))
+  }) |> 
+  dplyr::bind_rows() |> 
+  dplyr::mutate(
+    freq = freq |> stringr::str_remove("Frequency: ") |> stringr::str_remove("[.]"),
+    prereq = prereq |> stringr::str_remove(r"[Prerequisite\(s\): ]") |> stringr::str_remove(r"[\n]") |> stringr::str_remove(r"[\.?\n]")
+  ) |> 
+  DT::datatable(filter = "top")
 ```
 
 
