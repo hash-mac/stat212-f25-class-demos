@@ -5,3 +5,43 @@ title: "mscs-courses"
 We would like to scrap the MSCS courses on <https://www.macalester.edu/mscs/courses/>
 
 
+```{r}
+url <- "https://www.macalester.edu/mscs/courses/"
+```
+
+```{r}
+library(rvest)
+```
+
+```{r}
+page <- read_html(url)
+page
+```
+
+```{r}
+page |> 
+  html_node("body") |> 
+  html_nodes(".courselisting") |> 
+  purrr::map(function(x) {
+    title = html_element(x, "h3") |> html_text()
+    desc = html_element(x, ".coursedescription span") |> html_text()
+    offer = html_element(x, ".coursedescription p") |> html_text()
+    prereq = html_element(x, ".prerequisites") |> html_text()
+    return(c(title, desc, offer, prereq))
+  })
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
