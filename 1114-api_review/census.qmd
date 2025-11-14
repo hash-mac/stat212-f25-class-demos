@@ -19,23 +19,90 @@ First, let's browse the website by carrying out the following steps:
 7. Select the **Table** tab to see the results
 
 
-Let's now copy the page URL and try to get the resulting table into R.
+Let's copy the page URL and try to get the resulting table into R:
 
+1. Build the request
 ```{r}
 request <- request("https://data.census.gov/app/mdat/SIPP2001COREV7/table?cv=ETENURE,EPUBHSE&rv=ucgid&vv=EHHNUMPP&g=AwFm-BVBlAmB2ANAVmUA")
 request
 ```
+
+Preferably, we can build the URL using `httr2` functions which will allow us to generalize the code for different situations and take care of characters not allowed in URL, eg, spaces.
+```{r}
+request <- request("https://data.census.gov") |> 
+  req_url_path_append("app") |> 
+  req_url_path_append("mdat") |> 
+  req_url_path_append("SIPP2001COREV7") |> 
+  req_url_path_append("table") |> 
+  req_url_query(cv = c("ETENURE", "EPUBHSE"),
+                rv = c("ucgid"),
+                vv = c("EHHNUMPP"),
+                g = c("AwFm-BVBlAmB2ANAVmUA"),
+                .multi = "comma")
+request
+```
+
+
+2. Run the request
 ```{r}
 response <- req_perform(request)
 response
-class(response)
 ```
 
+3. Inspect the response
+```{r}
+response |> resp_body_html()
+```
+
+4. Extract the `body` content from the `html_document` object using `rvest` functions
 ```{r}
 response |> 
   resp_body_html() |> 
   rvest::html_element("body") |> 
-  rvest::html_text()
+  rvest::html_text() |> 
+  stringr::str_view()  # render
 ```
 
+Using the URL built by the Census online app to retrieve data won't work.  Instead, we have to use the Census API by following the steps below:
+
+1. Browse to [United States Census Bureau website](https://www.census.gov/)
+2. Hover over the **Data & Maps** menu & select [**Developers**](https://www.census.gov/data/developers.html)
+3. Select the **Available API** tab and browser the available datasets
+
+```{r}
+census_api_key <- readr::read_lines("census_api_key.txt")
+```
+
+Let's try to get data from [**Vehicle Inventory and Use Survey (VIUS)**](https://www.census.gov/data/developers/data-sets/vius.html).  This survey has 6 datasets.  Let's try to get data from the **In Use Vehicles** dataset by following the steps below:
+
+1. Build request
+```{r}
+request <- request("https://api.census.gov/data/2021/viusc?get=NAME,GEO_ID,PRICHAR,PRIVALUE,VCOUNT,VCOUNT_S&for=us:*")
+request
+```
+
+Preferably, we can build the request using the `httr2` functions as follows:
+```{r}
+request <- request("https://api.census.gov/data/2021/viusc") |> 
+  req_url_query(get = c("NAME", "GEO_ID", "PRICHAR", "PRIVALUE", "VCOUNT", "VCOUNT_S"),
+                `for` = I("us:*"),  # I=Identical, try c instead
+                .multi = "comma")
+request
+```
+
+
+
+2. Run request & inspect the response
+```{r}
+response <- req_perform(request)
+response
+```
+
+3. Convert the response into data frame
+```{r}
+response |> 
+  resp_body_json(simplifyVector = TRUE) |> 
+  janitor::row_to_names(1) |> 
+  as.data.frame()
+```
 
