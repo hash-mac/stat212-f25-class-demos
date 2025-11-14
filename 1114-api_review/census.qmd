@@ -1,0 +1,41 @@
+---
+title: "census"
+---
+
+We will try to get some data from [United States Census Bureau website](https://www.census.gov/).
+
+```{r}
+library(httr2)
+```
+
+First, let's browse the website by carrying out the following steps:
+
+1. Hover over the **Data & Maps** menu & select [**Explore data on data.census.gov >**](https://data.census.gov/)
+2. scroll to the section titled **access microdata** and click [**Explore Microdata**](https://data.census.gov/app/mdat/)
+3. Select different **Datasets** and **Vintages** from the drop down menus and notice how the text underneath them and the page URL change.  After than click **NEXT**
+4. Check mark multiple **Variables** and notice how the page URL changes
+5. Select the **Geographies** tab and select few states and notice how the page URL changes
+6. Select the **Cart** tab, go over the selected variables to know the possible values for each
+7. Select the **Table** tab to see the results
+
+
+Let's now copy the page URL and try to get the resulting table into R.
+
+```{r}
+request <- request("https://data.census.gov/app/mdat/SIPP2001COREV7/table?cv=ETENURE,EPUBHSE&rv=ucgid&vv=EHHNUMPP&g=AwFm-BVBlAmB2ANAVmUA")
+request
+```
+```{r}
+response <- req_perform(request)
+response
+class(response)
+```
+
+```{r}
+response |> 
+  resp_body_html() |> 
+  rvest::html_element("body") |> 
+  rvest::html_text()
+```
+
+
